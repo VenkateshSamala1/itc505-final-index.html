@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lights Out</title>
+    <style>
+
+        body {
+            background-image: url('https://source.unsplash.com/random/1600x900');
+            /* Default background image */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: repeat(5, 50px);
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            /* Center alignment */
+            margin-top: 50px;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        .cell.active {
+            background-color:gray;
+        }
+
+        .heading {
+            text-align: center;
+            color: black;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #a200ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #7700b3;
+        }
+
+        .instructions {
+            text-align: center;
+            color: rgb(183, 210, 179);
+            margin-top: 20px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            background-image: linear-gradient(to right, #80a091, #0e2e3f, #24719b, #575b5b);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="heading">Lights Out Puzzle</h1>
+
+    <div class="container" id="container"></div>
+
+    <button class="button" onclick="playAgain()">Play Again</button>
+
+    <button class="button" onclick="randomizeGrid()">Randomize</button>
+
+    <button class="button" onclick="openInstructions()">Game Instructions</button>
+
+    <button class="button" onclick="Addendum()">Addendum</button>
+
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeInstructions()">&times;</span>
+            <h2>Instructions for playing</h2>
+            <p>The Lights Out puzzle game can be played as follows:</p>
+            <p><strong>Goals:</strong> All the lights in the grid must be turned off to win the game. It is possible to have either an active or inactive cell in the grid.</p>
+            <p><strong>Schematic:</strong>In the game, some lights are on and some are off, which are displayed on a grid of lights. Clicking on a cell will toggle its state in an inverted grid.</p>
+            <p><strong>Switches for toggling the lights: </strong> The state of a cell and its adjacent cells is toggled when a user clicks on it (up, down, left, right). In this case, the on state of a cell will be toggled at the same time as the states of adjacent cells.</p>
+            <p><strong>Planning:</strong>In this game, the goal is to turn off all the lights by following the right sequence of moves. The puzzle requires careful planning due to your clicks affecting its neighbors.</p>
+            <p><strong>Gaining success: </strong>If you are able to turn off all the lights on the grid, you win the game. The message indicating your victory usually appears in this case.</p>
+            <p><strong>A new start: </strong>Resetting the grid to its original state can help you get back on track if you get stuck or want to try a different approach.</p>
+            <p><strong>Make it random: </strong>Playing with a random grid each time you hit the randomize button provides a fresh challenge.</p>
+            <p><strong>Embrace challenges:</strong>By experimenting with fewer moves and shorter timeframes, you can challenge yourself as you gain experience.</p>
+            <p><strong>There is no substitute for practice: </strong>The key to improving your skills in puzzle games is practice. Your ability to recognize patterns and find the most efficient solutions will improve as you play more.</p>
+            
+        </div>
+
+    </div>
+    <div id="addendumModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddendun()">&times;</span>
+            <h2>Addendum</h2>
+            <ol>
+                <li><strong>Choosing creatively:</strong>In order to make the puzzle playable on desktops and mobile devices, I chose a responsive layout that responds to different screen sizes. To make it more convenient, I added a restart button.</li>
+                <li><strong>Obstacles:</strong>One challenge was toggling adjacent cells' states efficiently and updating their states when adjacent cells changed. Using consistent logic for toggling, I overcame this problem.</li>
+                <li><strong>Observations:</strong>During this process, I gained a deeper understanding of JavaScript events, DOM manipulation, and CSS styling. By breaking down problems into manageable portions, I also learned to approach them systematically.</li>
+                <li><strong>Developing concepts:</strong>To begin, I first learned the rules of the Lights Out puzzle, which involves toggling cells in a grid and turning each one off.</li>
+                <li><strong>Creating designs and layouts:</strong>The structure is laid out in HTML, the styling is determined by CSS, and the interaction is determined by JavaScript. The grid is represented by a table, and the user interacts by pressing buttons.</li>
+                <li><strong> Execution: </strong>In the beginning, I created the grid, toggled cell states, and checked for a solved puzzle. User clicks were detected and updated using event listeners.</li>
+                <li><strong>Creating a style:</strong>CSS was used to style the grid, cells, buttons, and design of the puzzle. To ensure that the puzzle remains the focal point, I created a design that is clean and visually appealing.</li>
+                <li><strong> A test and a debug: </strong>In order to ensure the application worked correctly, I extensively tested it. A user experience improvement was made using browser developer tools.</li>
+                
+            </ol>
+            <span class="close" onclick="Addendum()">&times;</span>
+        </div>
+    </div>
+    <footer>
+        <p>Last updated:
+            <span id="lastModified"></span>
+        </p>
+    </footer>
+    <script type="text/javascript">
+        var x = document.lastModified;
+        document.getElementById('lastModified').textContent = x;
+    </script>
+    <script>
+        const container = document.getElementById('container');
+        const gridSize = 5;
+
+        // Create grid
+        for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                container.appendChild(cell);
+            }
+        }
+
+        // Add event listeners to cells
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                toggleCell(cell);
+                toggleAdjacentCells(cell);
+                checkWin();
+            });
+        });
+
+        function toggleCell(cell) {
+            const val = [...cell.classList];
+            if (!val.includes('active')) {
+                cell.classList.toggle('active');
+            }
+        }
+
+        function toggleAdjacentCells(cell) {
+            const cellIndex = Array.from(cells).indexOf(cell);
+            const adjacentIndices = getAdjacentIndices(cellIndex);
+            adjacentIndices.forEach(index => {
+                if (index >= 0 && index < cells.length) {
+                    toggleCell(cells[index]);
+                }
+            });
+        }
+
+        function getAdjacentIndices(index) {
+            const indices = [];
+            const gridSize = Math.sqrt(cells.length);
+            const row = Math.floor(index / gridSize);
+            const col = index % gridSize;
+
+            if (row > 0) indices.push(index - gridSize); // Top
+            if (row < gridSize - 1) indices.push(index + gridSize); // Bottom
+            if (col > 0) indices.push(index - 1); // Left
+            if (col < gridSize - 1) indices.push(index + 1); // Right
+
+            return indices;
+        }
+
+        function checkWin() {
+            const activeCells = document.querySelectorAll('.cell.active');
+            console.log(activeCells)
+            if (activeCells.length === 25) {
+                alert('Congratulations! You won!');
+            }
+        }
+
+        function playAgain() {
+            cells.forEach(cell => {
+                cell.classList.remove('active');
+            });
+        }
+
+        // Modal functions
+        function randomizeGrid() {
+            cells.forEach(cell => {
+                if (Math.random() < 0.5) {
+                    cell.classList.add('active');
+                } else {
+                    cell.classList.remove('active');
+                }
+            });
+        }
+        function openInstructions() {
+            document.getElementById('instructionsModal').style.display = 'block';
+        }
+
+        function Addendum() {
+            document.getElementById('addendumModal').style.display = 'block';
+        }
+
+        function closeInstructions() {
+            document.getElementById('instructionsModal').style.display = 'none';
+        }
+
+        function closeAddendun() {
+            document.getElementById('addendumModal').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
